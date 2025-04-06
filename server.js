@@ -11,7 +11,7 @@ const session=require('express-session')
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb+srv://maimizuno:ZNDHe1twqS7ir0vT@medicalhistorytaker.3ya8j.mongodb.net/medical_history_db?retryWrites=true&w=majority&appName=MedicalHistoryTaker');
+  await mongoose.connect(process.env.MONGODB_URI);
 }
 
 //Generate SESSION KEY
