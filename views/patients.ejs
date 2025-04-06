@@ -1,0 +1,73 @@
+<%-include('partials/header')%>  
+<%-include('partials/navbar') %>
+          <!-- Main body -->
+            <div class="container">
+                <h1>Patients List</h1>
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>                       
+                            <th>Patient ID</th>   
+                            <th>Name</th>
+                            <th>Date of birth</th>                            
+                            <% if(adminId) {%>
+                            <th>
+                                Actions
+                            </th>
+                            <% } %>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(patients.length === 0) {%>
+                            <tr>
+                                <td colspan="4" class="text-center">No patients found.</td>
+                            </tr>
+                        <%} else {%>
+                            <% patients.forEach(patient => { %>
+                                <tr>              
+                                <td><%= patient.patient_id %></td>           
+                                <td>
+                                        <%
+                                            const nameResponse = patient.response.find(r => r.question_id==="q0_0")
+                                            if(nameResponse){
+                                        %>                   
+                                            <%= nameResponse.response %>             
+                                        <%
+                                            }
+                                        %>
+                                </td>  
+                                <td>
+                                        <% 
+                                            const dobResponse = patient.response.find(r => r.question_id === "q0_1");
+                                            if (dobResponse) { 
+                                        %>
+                                            <%= dobResponse.response %> 
+                                        <% 
+                                            } 
+                                        %>
+                                </td> 
+                                <!-- Only displays when logged in -->
+                                <% if (adminId) { %>                                 
+                                <td>
+                                    <%- include('./partials/confirm_modal') %>
+                                    <!-- Call to action button -->                                                                
+                                    <ul class="list-inline m-0">                                  
+                                        <li class="list-inline-item">
+                                            <a href="<%= patientPrefix %>/edit/<%= patient.patient_id %>" class="btn btn-success btn-sm" type="=button" title="Edit"><i class='bx bx-edit'></i></a>                                        
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <form action="<%= patientPrefix %>/delete_patient/<%= patient.patient_id %>" method="post" style="display: inline;" id="deleteForm-<%= patient.patient_id %>">
+                                                <button class="btn btn-danger btn-sm delete-btn" type="button" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-patient-id="<%= patient.patient_id %>" title="Delete">
+                                                    <i class='bx bx-trash'></i>
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>                                
+                                </td>
+                                <% } %>                                                                     
+                                </tr>
+                            <% }); %>
+                        <% } %>
+                    </tbody>
+                </table> 
+            </div>                    
+<%-include('partials/footer')%>

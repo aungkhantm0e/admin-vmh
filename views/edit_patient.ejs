@@ -1,0 +1,43 @@
+<%- include('partials/header') %> 
+          <!-- Main body -->
+            <div class="container d-flex flex-column justify-content-center" style="width: 100%;">
+                <div class="mb-3 m-auto">
+                    <h1>Edit Patient Data</h1>
+                </div>                
+                <div class="card m-auto" style="width: 40rem; padding: 40px;">
+                    <form action="<%= patientPrefix %>/update_patient/<%= patient.patient_id %>" method="post">
+                        <!-- Loop through every response -->                   
+                        <% 
+                        patient.response.forEach(answer => { 
+                            let matchedQuestion = null;
+                            
+                            // Find the question in the question collection
+                            questions.sections.forEach(section => {
+                                section.questions.forEach(q => {
+                                    if (q.question_id === answer.question_id) {    
+                                        matchedQuestion = q;                                                                                                                   
+                                    }
+                                    if (q.follow_up){
+                                        q.follow_up.forEach(followUp=>{
+                                            if(followUp.question_id===answer.question_id){
+                                                matchedQuestion=followUp;
+                                            }
+                                        })
+                                    }
+                                });
+                            });
+                    
+                            if (matchedQuestion) { 
+                        %>
+                            <label for="<%= answer.question_id %>"><%= matchedQuestion.question %></label>
+                            <input type="text" class="form-control mb-3" name="<%= answer.question_id %>" value="<%= answer.response %>">
+                        <% 
+                            } 
+                        }); 
+                        %>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>                        
+                        <a href="<%= patientPrefix %>/" class="btn btn-outline-danger">Cancel</a>
+                    </form>  
+                </div>             
+            </div>                    
+<%- include('partials/footer') %>

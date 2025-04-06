@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+a{
+    text-decoration: none!important;
+}
+
+li{
+    list-style: none;
+}
+
+body{
+    font-family: 'Outfit',serif;
+}
+
+.wrapper{
+    display: flex;
+}
+
+.main{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    transition: all 0.25s ease-in-out;
+    background-color: #fff;
+}
+
+#sidebar{
+    width: 90px;
+    min-width: 90px;
+    transition: all 0.25s ease-in-out;
+    background-color: #0b0f19;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebar.expand{
+    width: 260px;
+    min-width: 260px;
+}
+#sidebar:not(.expand) .sidebar-logo,
+#sidebar:not(.expand) a.sidebar-link span{
+    display: none;
+}
+
+.toggle-btn{
+    width:30px;
+    height:30px;
+    color:#FFF;
+    border-radius: 0.425rem;
+    font: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:#323c55;
+}
+
+.toggle-btn:hover{
+    background-color: rgb(255, 0, 0);
+}
+
+.toggle-btn i{
+    color:#FFF
+}
+
+#sidebar.expand .sidebar-logo,
+#sidebar.expand a.sidebar-link span
+{
+    animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.sidebar-logo a{
+    color:#FFF;
+    font-size: 1.15rem;
+    font-weight: 600;
+} 
+
+.sidebar-nav{
+    padding: 0.7rem 0;
+    flex: 11  auto;
+    z-index: 10;
+}
+
+a.sidebar-link{
+    padding:.625rem 1.625rem;
+    color:#FFF;
+    display: block;
+    white-space: nowrap;    
+    font-weight: 700;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-link i{
+    font-size: 1.1rem;
+    margin-right: .75rem;
+}
+
+a.sidebar-link:hover{
+    background-color: rgba(58, 58, 58, 0.75);
+    border-left: 3px solid #3b7ddd;
+}
+
+.sidebar-item{
+    position: relative;
+}
+
+/* #sidebar:not(.expand) .sidebar-item{
+    position: absolute;
+    top: 0;
+    left: 90px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+} */
+
+#sidebar:not(.expand) .sidebar-item:hover{
+    display: block;
+    max-height: 15rem;
+    width: 100%;
+    opacity: 1;
+}
+
+
+

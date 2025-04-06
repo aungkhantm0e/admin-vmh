@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand px-4 py-3 bg-light justify-content-between">
+    <div class="container-fluid">
+        <form action="<%= patientPrefix %>/search" class="d-flex" method="get" role="search">
+            <input class="form-control me-2" name="q"  type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>                                            
+        <ul class="navbar-nav ms-auto me-5">
+            <% if(username) {%> 
+            <li class="nav-item dropdown">                        
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <%= username %>
+                </a>                       
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Log out</a>
+                </div>
+            </li>
+            <% } else { %>
+            <li class="nav-item">
+                <a href="/login">Sign in</a>
+            </li>
+            <% } %>
+        </ul>                   
+    </div>
+</nav>   

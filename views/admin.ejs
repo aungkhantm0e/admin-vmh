@@ -1,0 +1,22 @@
+<%- include('partials/header') %> 
+<div class="container mt-5 card m-auto align-content-center" style="width: 40rem; padding: 40px;">
+    <h1>Create Admin Account</h1>
+    <form action="/admin" class="my-3" method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+      
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+    <span>Already have an account? <a href="/login">Click here to Log in</a></span>
+</div>
+<%- include('partials/footer') %>
