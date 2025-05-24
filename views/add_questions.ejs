@@ -1,0 +1,34 @@
+<%-include('partials/header')%>  
+<%-include('partials/sidebar') %>
+<div class="main">
+    <div class="container mt-5">
+        <h2>Add a New Question</h2>
+        <form action="/questions/add" method="POST">
+            <label for="section">Select Section:</label>
+            <select class="form-select" name="section" id="section">
+                <% questionDoc.sections.forEach((section, i) => { %>
+                <option value="<%= i %>"><%= section.category %></option>
+                <% }) %>
+            </select><br><br>
+
+            <label for="question" class="form-label">New Question:</label>
+            <input type="text" class="form-control" name="question" required><br><br>
+
+            <label for="question_title" class="form-label">Question Title (key):</label>
+            <input type="text" name="question_title" class="form-control" required><br><br>     
+
+            <label for="hasFollowUp">Has Follow-Up Questions?</label>
+            <input type="checkbox" name="hasFollowUp" id="hasFollowUp" class="form-check-input" onchange="toggleFollowUps()"><br><br>        
+
+            <!-- Dynamic FOLLOW-UP Container -->
+             <div id="followUpsContainer" style="display: none;">
+                <h4>Follow-Up Questions</h4>
+                <div id="followUpFields"></div>
+                <button class="btn btn-outline-success w-100 p-3" type="button" onclick="addFollowUp()">+</button><br></br>
+             </div>
+
+            <button class="btn btn-primary" type="submit">Add Question</button>
+        </form>      
+    </div>
+</div>
+<%-include('partials/footer')%>

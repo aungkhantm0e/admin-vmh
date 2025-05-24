@@ -1,7 +1,7 @@
 <%- include('partials/header') %> 
-<div class="container mt-5 card m-auto align-content-center" style="width: 40rem; padding: 40px;">
-    <h1>Create Admin Account</h1>
-    <form action="/admin" class="my-3" method="POST">
+<div class="container mt-5 card m-auto align-content-center" style="width: 35rem; padding: 40px;">
+    <h1 class="fw-bold">Create Admin Account</h1>
+    <form action="/register" class="my-3" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
             <input type="text" class="form-control" id="username" name="username" required>
@@ -14,7 +14,17 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-      
+        <div class="mb-3">
+            <label for="password" class="form-label">Confirm your password</label>
+            <input type="password" class="form-control" id="password" name="confirmPassword" required>
+        </div>
+        <div class="mb-3">
+            <label for="role" class="form-label">Role</label>
+            <select class="form-select" name="role" required>
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
     <span>Already have an account? <a href="/login">Click here to Log in</a></span>

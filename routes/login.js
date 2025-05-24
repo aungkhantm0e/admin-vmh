@@ -7,9 +7,9 @@ const loginController=require("../controllers/loginController")
 router.get("/login",loginController.loginPage);
 
 //Login submit
-router.post("/login",loginController.loginAdmin)
+router.post("/login",loginController.loginUser)
 
 //Logout
-router.get("/logout",loginController.logoutAdmin)
+router.get("/logout",loginController.logoutUser)
 
 module.exports=router

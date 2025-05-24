@@ -1,0 +1,14 @@
+<%-include('partials/header')%>  
+<%-include('partials/sidebar') %>
+<div class="main">
+    <div class="container mt-5">
+        <h2>Add a new Category</h2>
+        <form action="/add_category" method="POST">
+            <label class="form-label" for="category">Category Name:</label>
+            <input type="text" name="category" class="form-control" required>
+            <button type="submit" class="btn btn-success">Add Category</button>
+        </form>
+    </div>
+</div>
+
+<%-include('partials/footer')%>

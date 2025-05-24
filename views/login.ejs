@@ -1,17 +1,29 @@
 <%- include('partials/header') %> 
-<div class="container mt-5 card m-auto" style="width: 40rem; padding: 40px;">
-    <h1>Admin Login</h1>
-    <form action="/login" class="my-5" method="POST">
-        <div class="mb-3">
-            <label for="username" class="form-label">Username or Email</label>
-            <input type="text" class="form-control" id="username" name="username" required>
+    <div class="main">
+        <div class="container mt-5 card m-auto" style="width: 30rem; padding: 40px;">
+            <h1 class="text-center fw-bold">Admin Login</h1>
+            <form action="/login" class="my-5" method="POST">
+                <%if(error) {%>
+                    <span class="text-danger"><%= error %></span>
+                <% } %>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Email</label>
+                    <div class="input-box">
+                        <i class='bx bx-user'></i>  
+                        <input type="text" class="form-control px-5" id="username" name="email" required>                                 
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-box">
+                        <i class='bx bxs-key'></i>
+                        <input type="password" class="form-control px-5" id="password" name="password" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>        
+            </form>
+            <span>Don't have an account? <a href="/register">Click here to Sign up</a></span>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>        
-    </form>
-    <span>Don't have an account? <a href="/admin">Click here to Sign up</a></span>
+    </div>
 </div>
 <%- include('partials/footer') %>

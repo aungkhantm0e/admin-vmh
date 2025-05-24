@@ -1,3 +1,50 @@
 <%-include('partials/header')%>
-       
+<%-include('partials/sidebar')%>
+    <div class="main">
+        <div class="container py-5">          
+          <h1 class="mb-4">Patient Dashboard</h1>         
+          <!-- Total Patients -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Total Patients</h5>
+              <h1 id="totalPatients"><%= count %></h1>
+            </div>
+          </div>
+          <!-- Chart Card -->
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Number of Responses</h5>
+              <canvas id="patientChart" height="100"></canvas>
+            </div>
+          </div>
+
+          <!-- Patient List Card -->
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Patient List</h5>
+              <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                  <thead class="table-success">
+                    <tr>
+                      <th>Name</th>
+                      <th>Age</th>
+                      <th>Condition</th>
+                      <th>Last Visit</th>
+                    </tr>
+                  </thead>
+                  <tbody id="patientList">
+                    <!-- JS will populate this -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    window.chartData=<%- JSON.stringify(chartData || []) %>;
+    const countpatients=12;
+</script>
 <%-include('partials/footer')%>

@@ -1,13 +1,13 @@
 <%- include('partials/header') %> 
-<%- include('partials/sidebar') %>
+<%- include('partials/sidebar')%>
           <!-- Main body -->
         <div class="main">
+            <%- include('partials/navbar') %>
             <div class="container d-flex flex-column justify-content-center" style="width: 100%;">
                 <div class="mb-3 m-auto">
-                    <h1>Edit Patient Data</h1>
+                    <h1>Patient Data</h1>
                 </div>                
                 <div class="card m-auto" style="width: 40rem; padding: 40px;">
-                    <form action="<%= patientPrefix %>/update_patient/<%= patient.patient_id %>" method="post">
                         <!-- Loop through every response -->                   
                         <% 
                         patient.response.forEach(answer => { 
@@ -31,18 +31,20 @@
                     
                             if (matchedQuestion) { 
                         %>
-                            <label for="<%= answer.question_id %>"><%= matchedQuestion.question %></label>
-                            <input type="text" class="form-control mb-3" name="<%= answer.question_id %>" value="<%= answer.response %>">
+                        <div class="col mb-3 p-2 border-bottom">
+                            <div class="fw-bold text-danger">
+                                <label><%= matchedQuestion.question %></label>
+                            </div>
+                            <div class="text-dark">
+                                <label><%= answer.response %></label>
+                            </div>
+                        </div>         
                         <% 
                             } 
                         }); 
-                        %>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>                        
-                        <a href="<%= patientPrefix %>/" class="btn btn-outline-danger">Cancel</a>
-                    </form>  
+                        %>                     
                 </div>             
-            </div>      
+            </div>         
         </div>
-    </div>    
-</div>          
+    </div>           
 <%- include('partials/footer') %>

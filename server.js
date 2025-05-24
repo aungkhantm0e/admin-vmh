@@ -1,7 +1,10 @@
 const express=require("express");
 const mongoose = require('mongoose');
-const adminRoutes=require("./routes/admin")
+const userRoutes=require("./routes/user")
 const loginRoutes=require("./routes/login")
+const indexRoutes=require("./routes/home")
+const questionRoutes=require("./routes/question")
+const isAuthenticated=require("./controllers/auth")
 require('dotenv').config();
 
 const app=express();
@@ -23,8 +26,13 @@ app.use(session({
 
 //passing session to every page
 app.use((req,res,next)=>{
-  res.locals.adminId=req.session.adminId;
-  res.locals.username=req.session.username;
+  if(req.session.user){
+    res.locals.userid=req.session.user.id;
+    res.locals.role=req.session.user.role; 
+  }else{
+    res.locals.userid=null,
+    res.locals.role=null
+  }
   next();
 })
 
@@ -39,18 +47,20 @@ app.use(express.json());
 app.use(express.static('public'));
 
 
-
-app.get("/",(req,res)=>{
-    res.redirect("/patients")
-})
-
-//---------------ADMIN-----------------
-//Admin routes
-app.use(adminRoutes)
-
 //---------------LOGIN-----------------
 //Login routes
 app.use(loginRoutes)
+//---------------User creation-----------------
+app.use(userRoutes)
+
+// app.use(isAuthenticated);
+
+//---------------HOME----------------
+//Home routes
+app.use(indexRoutes)
+
+//--------------Questions--------------
+app.use(questionRoutes)
 
 //--------------PATIENT-----------------
 //Patient's routes

@@ -1,0 +1,80 @@
+const Questions=require("../models/questions");
+
+exports.questionForm=(async (req,res)=>{
+    const questionDoc=await Questions.findById(process.env.QUESTION_ID);
+    res.render("add_questions",{questionDoc})
+})
+
+exports.addQuestions=(async (req,res)=>{
+    try{
+        const {
+            section,
+            question,
+            question_title,
+            follow_ups //This is an array of objects if multiple follow-ups are added
+        }=req.body;
+    
+        const hasFollowUp=!!follow_ups; //check if follow_ups exist
+        const questionDoc= await Questions.findById(process.env.QUESTION_ID)
+
+        const sectionIndex=parseInt(section);
+        const selectedSection=questionDoc.sections[sectionIndex]
+
+        //Compute main question index
+        const questionIndex=selectedSection.questions.length;
+        const mainQuestionId=`q${sectionIndex}_${questionIndex}`;
+
+        //Create new question object
+        const newQuestion={
+            question,
+            question_title,
+            question_id:mainQuestionId         
+        };
+
+        //Handle follow-up questions if any
+        if(hasFollowUp && Array.isArray(follow_ups)){
+            const followUps=follow_ups.map((fup,index)=>({
+                question: fup.question,
+                question_title: fup.question_title,
+                question_id: `${mainQuestionId}_${index}`           
+            }));
+            newQuestion.follow_up=followUps;
+        }
+
+        //push to section questions and save
+        selectedSection.questions.push(newQuestion);
+        await questionDoc.save();
+
+        res.redirect("/patients");
+    }catch(error){
+        console.log("Error adding question:", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
+//CATEGORY
+//Category Form
+exports.categoryForm=(async(req,res)=>{
+    res.render("add_category");
+})
+//Add new category
+exports.addCategory=(async (req,res)=>{
+    const {category}=req.body;
+
+    try{
+        const questionDoc=await Questions.findById(process.env.QUESTION_ID);
+        questionDoc.sections.push({
+            category,
+            questions:[]  
+        });
+
+        await questionDoc.save();
+
+        res.redirect("/add_questions");
+
+    }catch(error){
+        console.log("Error adding category:", error);
+        res.status(500).send("Server Error");
+    }
+})

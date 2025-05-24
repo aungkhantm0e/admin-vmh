@@ -5,12 +5,8 @@ const patientSchema = new mongoose.Schema({
     patient_id: Number,
     response:[Object],
     session_info: {
-        session_start: {
-            date: Date
-        },
-        session_end: {
-            date: Date
-        }
+        session_end: Date,
+        session_start: Date
     }
 })
 

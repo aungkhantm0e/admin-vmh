@@ -1,0 +1,51 @@
+<%-include('partials/header')%>  
+<%-include('partials/sidebar') %>
+    <div class="main">
+        <div class="container mt-5">
+            <h1 class="text-center fw-bold">Patient Medical History Form</h1>
+            <form action="<%= patientPrefix %>/submit_form" method="POST">
+                <div class="row">
+                    <% form.sections.forEach((section) => { %>
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-header fw-bold">
+                                <h4><%= section.category %></h4>
+                            </div>
+                            <div class="card-body">
+                                <% section.questions.forEach(question => { %>
+                                <div class="mb-3">
+                                    <label for="<%= question.question_id %>" class="form-label"><%= question.question %></label>                           
+
+                                <% if (question.follow_up && question.follow_up.length > 0) { %>
+                                    <select class="form-select yes-no-selector" name="<%= question.question_title %>" id="<%= question.question_id %>">
+                                        <option value="">Select</option>
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                    <% question.follow_up.forEach(fu => { %>
+                                    <div class="follow-up mb-3 ms-3" data-parent="<%= question.question_id %>" style="display: none;">
+                                        <label for="<%= fu.question_id %>" class="form-label text-muted"><%= fu.question %></label>
+                                        <input type="text" class="form-control" name="<%= fu.question_title %>" id="<%= fu.question_id %>">
+                                    </div>
+                                    <% }) %>
+                                <% } else { %>
+                                    <!-- Normal text input if no follow-ups -->
+                                    <input type="text" class="form-control" name="<%= question.question_title %>" id="<%= question.question_id %>">
+                                <% } %>
+                                </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+
+                <div class="my-4">
+                    <button type="submit" class="btn btn-primary w-100 p-3 fw-bold">ADD A NEW PATIENT</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<%-include('partials/footer')%>
