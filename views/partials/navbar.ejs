@@ -1,9 +1,11 @@
 <nav class="navbar navbar-expand px-4 py-3 bg-light justify-content-between">
     <div class="container-fluid">
-        <form action="<%= patientPrefix %>/search" class="d-flex" method="get" role="search">
-            <input class="form-control me-2" name="q"  type="search" placeholder="Search" aria-label="Search">
+        <form action="<%= patientPrefix %>/search" class="d-flex" style="width: 30rem;" method="get" role="search">
+            <input class="form-control me-2" name="q"  type="search" placeholder="Search Name,Diagnosis,DOB,etc.." aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>                                                         
+        </form>                                            
+        <% if(role==="Admin") {%>             
         <a class="btn btn-outline-primary" href="<%= patientPrefix %>/new_patient">Add Patient</a>
+        <% } %>
     </div>
 </nav>   

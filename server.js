@@ -4,7 +4,7 @@ const userRoutes=require("./routes/user")
 const loginRoutes=require("./routes/login")
 const indexRoutes=require("./routes/home")
 const questionRoutes=require("./routes/question")
-const isAuthenticated=require("./controllers/auth")
+const {isAuthenticated}=require("./controllers/auth")
 require('dotenv').config();
 
 const app=express();
@@ -29,6 +29,7 @@ app.use((req,res,next)=>{
   if(req.session.user){
     res.locals.userid=req.session.user.id;
     res.locals.role=req.session.user.role; 
+    res.locals.username=req.session.user.name;
   }else{
     res.locals.userid=null,
     res.locals.role=null
@@ -53,7 +54,7 @@ app.use(loginRoutes)
 //---------------User creation-----------------
 app.use(userRoutes)
 
-// app.use(isAuthenticated);
+app.use(isAuthenticated);
 
 //---------------HOME----------------
 //Home routes

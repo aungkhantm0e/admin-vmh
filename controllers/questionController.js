@@ -5,6 +5,7 @@ exports.questionForm=(async (req,res)=>{
     res.render("add_questions",{questionDoc})
 })
 
+// Add questions
 exports.addQuestions=(async (req,res)=>{
     try{
         const {
@@ -52,6 +53,40 @@ exports.addQuestions=(async (req,res)=>{
     }
 })
 
+// Edit questions
+exports.editQuestions=(async (req,res)=>{
+    const questionDoc=await Questions.findById(process.env.QUESTION_ID);
+    res.render("edit_questions",{questionDoc})
+})
+//Update questions
+exports.updateQuestion = async (req, res) => {
+  try {
+    const updatedSections = req.body.sections;
+
+    const formattedSections = Object.values(updatedSections || {}).map(section => ({
+      category: section.category,
+      questions: Object.values(section.questions || {}).map(q => ({
+        question: q.question,
+        question_title: q.question_title,
+        question_id: q.question_id,
+        follow_up: q.follow_up
+          ? Object.values(q.follow_up).map(fu => ({
+              question: fu.question,
+              question_title: fu.question_title,
+              question_id: fu.question_id
+            }))
+          : undefined
+      }))
+    }));
+
+    await Questions.updateOne({}, { sections: formattedSections });
+    res.redirect("/edit/questions");
+  } catch (err) {
+    console.error("Update failed:", err);
+    res.status(500).send("Error updating questions.");
+  }
+};
+
 
 //CATEGORY
 //Category Form
@@ -78,3 +113,4 @@ exports.addCategory=(async (req,res)=>{
         res.status(500).send("Server Error");
     }
 })
+

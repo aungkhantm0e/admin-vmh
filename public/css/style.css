@@ -106,7 +106,8 @@ a.sidebar-link{
     border-left: 3px solid transparent;
 }
 
-.sidebar-link i{
+.sidebar-link i,
+.dropdown-item i{
     font-size: 1.1rem;
     margin-right: .75rem;
 }
@@ -136,6 +137,24 @@ a.sidebar-link:hover{
     width: 100%;
     opacity: 1;
 }
+#sidebar:not(.expand) .sidebar-item .sidebar-dropdown{
+    position: absolute;
+    top: 0;
+    left:90px;
+    background-color: #0e2238;
+    padding: 0;
+    min-width: 15rem;
+    display: none;
+}
+#sidebar:not(.expand) .sidebar-item:hover .has-dropdown+.sidebar-dropdown{
+    display: block;
+    max-height: 15rem;
+    width: 100%;
+    opacity: 1;
+}
+#sidebar.expand .sidebar-dropdown{
+    margin: 0 10px;
+}
 
 
 /* Login form */
@@ -148,5 +167,18 @@ a.sidebar-link:hover{
     top:50%;
     transform: translateY(-50%);
     font-size: 20px;
+}
+
+
+/* Clickable-card on index page */
+.clickable-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 10px;
+}
+
+.clickable-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  text-decoration: none;
 }
 

@@ -10,7 +10,8 @@
                         <tr>                       
                             <th>Patient ID</th>   
                             <th>Name</th>
-                            <th>Date of birth</th>                                                   
+                            <th>Diagnosis</th>
+                            <th>Date of birth</th>                                                                               
                             <th>Actions</th>                                                     
                         </tr>
                     </thead>
@@ -34,6 +35,20 @@
                                         %>
                                 </td>  
                                 <td>
+                                    <% 
+                                        const diagnosisResponse=patient.response.find(r=>r.question_id==="q2_0_0") 
+                                        if(diagnosisResponse) {
+                                    %>
+                                        <%= diagnosisResponse.response %>
+                                    <% 
+                                        }else{
+                                    %>
+                                    <%= "N/A" %>
+                                    <%
+                                        }
+                                    %>
+                                </td>
+                                <td>
                                         <% 
                                             const dobResponse = patient.response.find(r => r.question_id === "q0_1");
                                             if (dobResponse) { 
@@ -49,11 +64,11 @@
                                     <!-- Call to action button -->                                                                
                                     <ul class="list-inline m-0 ms-auto">    
                                         <li class="list-inline-item">
-                                            <a href="<%= patientPrefix %>/view/<%= patient.patient_id %>" class="btn btn-info btn-sm" type="button" title="View"><i class='bx bx-show-alt'></i> </a>
+                                            <a href="<%= patientPrefix %>/view/<%= patient.patient_id %>" class="btn btn-info btn-sm" type="button" title="View"><i class='bx  bx-eye-alt'  ></i> </a>
                                         </li>    
                                         <% if (role==="Admin") { %>                           
                                         <li class="list-inline-item">
-                                            <a href="<%= patientPrefix %>/edit/<%= patient.patient_id %>" class="btn btn-success btn-sm" type="=button" title="Edit"><i class='bx bx-edit'></i></a>                                        
+                                            <a href="<%= patientPrefix %>/edit/<%= patient.patient_id %>" class="btn btn-success btn-sm" type="=button" title="Edit"><i class='bx bx-edit'></i></a>
                                         </li>
                                         <li class="list-inline-item"> 
                                             <form action="<%= patientPrefix %>/delete_patient/<%= patient.patient_id %>" method="post" style="display: inline;" id="deleteForm-<%= patient.patient_id %>">

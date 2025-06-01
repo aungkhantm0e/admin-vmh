@@ -1,0 +1,87 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="main container mt-5">
+  <h2>Edit Questions, Categories & Delete</h2>
+  <form id="editForm" action="/questions/edit" method="POST">   
+    <% questionDoc.sections.forEach((section, sectionIndex) => { 
+      const collapseId = `collapseSection${sectionIndex}`;
+    %>
+      <div class="section-block mb-4 p-3 border rounded bg-light my-4" id="section-<%= sectionIndex %>">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="mb-0">
+            <%= section.category %>        
+          </h4>
+          <div>
+            <button class="btn btn-success" type="button" data-bs-toggle="collapse" data-bs-target="#<%= collapseId %>" aria-expanded="false" aria-controls="<%= collapseId %>">
+              <i class='bx  bx-dropdown'  ></i> 
+            </button>
+            <% if(role==="Admin") { %>
+              <button type="button" class="btn btn-danger" onclick="confirmDelete('section',<%= sectionIndex %>)">
+                <i class='bx  bx-trash-x'  ></i> 
+              </button>
+            <% } %>          
+          </div>          
+        </div>
+
+        <div class="collapse mt-3" id="<%= collapseId %>">
+          <label>Category Name:</label>
+          <input class="form-control mb-2" type="text" name="sections[<%= sectionIndex %>][category]" value="<%= section.category %>" <%= role !== "Admin" ? "readonly" : "" %> required>
+
+          <% section.questions.forEach((q, qIndex) => { %>
+            <div class="question-block mt-3 p-4 border rounded bg-white" id="question-<%= sectionIndex %>-<%= qIndex %>">
+              <div class="d-flex justify-content-between align-items-center">
+                <label>Question:</label>
+                <% if(role==="Admin"){ %>
+                  <button type="button" class="btn btn-outline-danger btn-sm" onclick="confirmDelete('question',<%= sectionIndex %>, <%= qIndex %>)">Delete Question</button>
+                <% } %>                
+              </div>
+              <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][question]" value="<%= q.question %>" <%= role !== "Admin" ? "readonly" : "" %> required>
+
+              <label>Title:</label>
+              <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][question_title]" value="<%= q.question_title %>" <%= role !== "Admin" ? "readonly" : "" %> required>
+
+              <label>ID:</label>
+              <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][question_id]" value="<%= q.question_id %>" readonly>
+
+              <% if (Array.isArray(q.follow_up)) { %>
+                <div class="follow-up mt-3 p-3 border bg-light rounded">
+                  <h6>Follow-Up Questions:</h6>
+                  <% q.follow_up.forEach((fu, fuIndex) => { %>
+                    <div class="mb-3">
+                      <label>Follow-Up Question:</label>
+                      <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][follow_up][<%= fuIndex %>][question]" <%= role !== "Admin" ? "readonly" : "" %> value="<%= fu.question %>">
+
+                      <label>Title:</label>
+                      <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][follow_up][<%= fuIndex %>][question_title]" <%= role !== "Admin" ? "readonly" : "" %> value="<%= fu.question_title %>">
+
+                      <label>ID:</label>
+                      <input class="form-control" type="text" name="sections[<%= sectionIndex %>][questions][<%= qIndex %>][follow_up][<%= fuIndex %>][question_id]" value="<%= fu.question_id %>" readonly>
+                    </div>
+                  <% }) %>
+                </div>
+              <% } %>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    <% }) %>
+    <% if(role==="Admin") { %>
+      <button class="btn btn-success w-100 p-3" type="submit">Save All Changes</button>
+    <% } %>    
+  </form>
+</div>
+ <%- include('partials/confirm_modal') %>
+<script>
+function deleteSection(index) {
+  const sectionElement = document.getElementById(`section-${index}`);
+  if (sectionElement) sectionElement.remove();
+}
+
+function deleteQuestion(sectionIndex, qIndex) {
+  const questionElement = document.getElementById(`question-${sectionIndex}-${qIndex}`);
+  if (questionElement) questionElement.remove();
+}
+</script>
+
+<%- include('partials/footer') %>

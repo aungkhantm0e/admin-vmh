@@ -1,6 +1,7 @@
 const Patient=require("../models/patient");
 const Questions=require("../models/questions");
 
+
 exports.allPatient=(async (req,res)=>{
     try{
         //fetch all patients

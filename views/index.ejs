@@ -2,18 +2,53 @@
 <%-include('partials/sidebar')%>
     <div class="main">
         <div class="container py-5">          
-          <h1 class="mb-4">Patient Dashboard</h1>         
-          <!-- Total Patients -->
-          <div class="card mb-4 shadow-sm">
-            <div class="card-body">
-              <h5 class="card-title">Total Patients</h5>
-              <h1 id="totalPatients"><%= count %></h1>
-            </div>
+          <h1 class="mb-4">Admin Dashboard</h1>         
+          <% if (username) { %>
+          <h2>Welcome <%= username %></h2>
+          <% } %>
+          <!-- Action Button -->
+          <% if(role==="Admin") { %>
+            <div class="d-flex mb-4 justify-content-between w-50" style="height: 100px;">
+            <a href="/patients/new_patient" class="card clickable-card text-decoration-none text-white d-flex justify-content-center align-items-center" style="width: 200px;background-color: rgb(54, 162, 235);">
+              <i class='bx bx-user-plus fs-3'></i> 
+              <span class="fw-bold">Patient</span>
+            </a>
+
+            <a href="/add_questions" class="card clickable-card text-decoration-none text-dark d-flex justify-content-center align-items-center" style="width: 200px;background-color: rgb(255, 99, 132);">
+              <i class='bx bx-book-add fs-3'></i>             
+              <span class="fw-bold">Question</span>
+            </a>
+
+            <a href="/add_category" class="card clickable-card text-decoration-none text-dark d-flex justify-content-center align-items-center" style="width: 200px;background-color: rgba(8, 106, 60, 0.2);">
+              <i class='bx  bx-grid-plus fs-3'></i> 
+              <span class="fw-bold">Category</span>
+            </a>         
           </div>
+          <% } %>          
+          <div class="d-flex">
+            <!-- Total Patients -->
+            <div class="card mb-4 shadow-sm me-2 w-50">
+              <div class="card-body">
+                <h5 class="card-title">Total Patients</h5>
+                <div class="d-flex align-items-center justify-content-center" style="height: 200px;">
+                  <span id="totalPatients" class="fs-1"><%= count %></span>
+                </div>              
+              </div>
+            </div>
+            <!-- Male & Female Pie Chart -->
+            <div class="card mb-4 shadow-sm ms-2 w-50">
+              <div class="card-body">
+                <h5 class="card-title">Gender Distribution</h5>
+                <div style="width: 200px; height: 200px; margin:0 auto;">
+                    <canvas id="genderPieChart"></canvas>                    
+                </div>               
+              </div>
+            </div>
+          </div>          
           <!-- Chart Card -->
           <div class="card mb-4 shadow-sm">
             <div class="card-body">
-              <h5 class="card-title">Number of Responses</h5>
+              <h5 class="card-title">Daily Check-In</h5>
               <canvas id="patientChart" height="100"></canvas>
             </div>
           </div>
@@ -27,15 +62,32 @@
                   <thead class="table-success">
                     <tr>
                       <th>Name</th>
-                      <th>Age</th>
-                      <th>Condition</th>
-                      <th>Last Visit</th>
+                      <th>Diagnosis</th>
+                      <th>D.O.B</th>
+                      <th>Check-In</th>
                     </tr>
                   </thead>
                   <tbody id="patientList">
                     <!-- JS will populate this -->
+                    <% fewPatients.forEach(p => { 
+                        const name = p.response.find(r => r.question === 'name')?.response || "N/A";
+                        const diagnosis = p.response.find(r => r.question === 'medical_conditions_list')?.response || "N/A";
+                        const dob = p.response.find(r => r.question === 'date_of_birth')?.response || "N/A";
+                        const rawDate = p?.session_info?.session_end;
+                        const checkIn = rawDate ? new Date(rawDate).toISOString().split("T")[0] : "N/A";
+                      %>
+                      <tr>
+                        <td><%= name %></td>
+                        <td><%= diagnosis %></td>
+                        <td><%= dob %></td>
+                        <td><%= checkIn %></td>
+                      </tr>
+                    <% }) %>
                   </tbody>
                 </table>
+              </div>
+              <div class="text-center mt-3">
+                <a href="/patients">See More</a>
               </div>
             </div>
           </div>
@@ -43,8 +95,10 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
     window.chartData=<%- JSON.stringify(chartData || []) %>;
+    window.genderPieData = <%- JSON.stringify(genderPieData) || []%>;
     const countpatients=12;
 </script>
 <%-include('partials/footer')%>

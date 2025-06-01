@@ -4,7 +4,7 @@
             <a href="/patients">My Medical</a>
         </div>
         <button class="toggle-btn border-0" type="button">
-            <i id="icon" class='bx bxs-shield-plus'></i>
+            <i id="icon" class='bx bx-plus-shield'></i>
         </button>
     </div>
     <ul class="sidebar-nav">
@@ -13,38 +13,40 @@
                 <i class='bx bxs-dashboard'></i>
                 <span>Dashboard</span>
             </a>
-        </li>
-        <li class="sidebar-item">
-            <a href="#" class="sidebar-link">
-                <i class='bx bxs-bar-chart-alt-2' ></i>
-                <span>Analytics</span>
-            </a>
-        </li>
+        </li>      
         <li class="sidebar-item">
             <a href="/patients" class="sidebar-link">
                 <i class='bx bx-group'></i>
                 <span>Patients</span>
             </a>
+        </li>    
+          <li class="sidebar-item">
+            <a href="/edit/questions" class="sidebar-link">   
+                <i class='bx  bxs-clipboard-detail'  ></i>  
+                <% if(role==="Admin") { %>
+                    <span>Edit Questions</span>
+                <% } else {%>
+                <span>Questions</span>
+                <% } %>
+            </a>
         </li>
+        <% if(role==="Admin") { %>
         <li class="sidebar-item">
-            <a href="#" class="sidebar-link">   
-                <i class='bx  bx-dots-horizontal'  ></i>          
+            <a href="#more" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" aria-expanded="false" aria-controls="more">
+                <i class='bx  bxs-dots-horizontal-rounded-circle'  ></i> 
                 <span>More</span>
             </a>
+            <ul id="more" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                    <a href="/add_questions" class="sidebar-link">Add Question</a>
+                </li>
+                 <li class="sidebar-item">
+                    <a href="/add_category" class="sidebar-link">Add Category</a>
+                </li>
+            </ul>
         </li>
-        <li class="sidebar-item">
-            <a href="/add_questions" class="sidebar-link">   
-                <i class='bx  bx-clipboard'  ></i>  
-                <span>Add Questions</span>
-            </a>
-        </li>
-         <li class="sidebar-item">
-            <a href="/add_category" class="sidebar-link">   
-                <i class='bx  bx-plus-square'  ></i>  
-                <span>Add Category</span>
-            </a>
-        </li>
-
+        <% } %>
+                    
         <% if(!userid) {%>
         <li class="sidebar-item">
             <a href="/login" class="sidebar-link">
@@ -57,7 +59,7 @@
     <% if(userid) {%>
     <div class="sidebar-footer">            
         <a href="/logout" class="sidebar-link">
-            <i class='bx bx-log-out'></i>
+            <i class='bx  bx-arrow-out-left-square-half'  ></i> 
             <span>Log out</span>       
         </a>                        
     </div>     

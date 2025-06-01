@@ -17,7 +17,7 @@ exports.loginUser=async (req,res)=>{
     }else{
         const match=await bcrypt.compare(password,user.password);
         if (!match) {
-           error="Invalid username and password!!!"
+           error="Icorrect password!!!"
         }
     }
 
@@ -29,10 +29,9 @@ exports.loginUser=async (req,res)=>{
     //Save session
     req.session.user={
         id:user._id,
-        role:user.role
+        role:user.role,
+        name:user.username
     }
-    // req.session.adminId = admin._id;
-    // req.session.username =admin.username;
     res.redirect('/');
 }
 
